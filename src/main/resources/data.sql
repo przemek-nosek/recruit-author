@@ -11,7 +11,8 @@ values (1, '44fa', 'Za oknem', 1),
        (4, 'faghj', 'Szklanki', 3),
        (5, '1gdg', 'Delikwent', 1),
        (6, 'dfhd3', 'Master', 2),
-       (7, 'fd5s', 'Teacher', 4);
+       (7, 'fd5s', 'Teacher', 4),
+       (8, 'gdszz', 'Omlette', 2);
 
 INSERT INTO authors (id, first_name, last_name)
 values (1, 'Przemek', 'Nosek'),
@@ -31,6 +32,7 @@ values (1, 1),
        (5, 4),
        (5, 5),
        (6, 6),
-       (7, 7);
+       (7, 7),
+       (2, 8);
 
 
