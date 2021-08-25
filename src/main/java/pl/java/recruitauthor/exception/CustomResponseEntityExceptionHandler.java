@@ -13,8 +13,8 @@ import java.util.Collections;
 @ControllerAdvice
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = {AuthorNotFoundException.class})
-    public ResponseEntity<ApiError> handleAuthorNotFoundException(AuthorNotFoundException ex, WebRequest request) {
+    @ExceptionHandler(value = {AuthorNotFoundException.class, CategoryNotFoundException.class})
+    public <T extends RuntimeException> ResponseEntity<ApiError> handleAuthorNotFoundException(T ex, WebRequest request) {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, LocalDateTime.now(), ex.getMessage(), Collections.emptyList());
 
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);

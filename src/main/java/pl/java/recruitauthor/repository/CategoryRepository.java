@@ -6,4 +6,6 @@ import pl.java.recruitauthor.entity.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+
+    boolean existsByCategoryName(String name);
 }

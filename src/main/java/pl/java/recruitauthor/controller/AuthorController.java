@@ -19,7 +19,7 @@ public class AuthorController {
 
     @GetMapping("/{id}/{category}")
     public ResponseEntity<AuthorBookDto> getAuthorAndBooksByCategory(@PathVariable Long id, @PathVariable String category) {
-        AuthorBookDto dto = authorService.getAuthorAndBooksByCategory(id, category);
+        AuthorBookDto dto = authorService.getAuthorAndBooksInSingleCategory(id, category);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

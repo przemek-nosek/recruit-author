@@ -4,40 +4,34 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.java.recruitauthor.dto.AuthorBookDto;
-import pl.java.recruitauthor.dto.BookDto;
 import pl.java.recruitauthor.entity.Author;
-import pl.java.recruitauthor.entity.Book;
 import pl.java.recruitauthor.exception.AuthorNotFoundException;
-import pl.java.recruitauthor.mapper.Mapper;
+import pl.java.recruitauthor.exception.CategoryNotFoundException;
 import pl.java.recruitauthor.repository.AuthorRepository;
+import pl.java.recruitauthor.repository.CategoryRepository;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
+    private final CategoryRepository categoryRepository;
 
     @Transactional
-    public AuthorBookDto getAuthorAndBooksByCategory(Long id, String category) {
+    public AuthorBookDto getAuthorAndBooksInSingleCategory(Long id, String category) {
+
         Author author = authorRepository.findById(id).orElseThrow(() -> new AuthorNotFoundException("Author not found"));
 
-        Set<Book> books = author.getBooks();
+        boolean existsByCategoryName = categoryRepository.existsByCategoryName(category);
 
-        List<BookDto> categorizedBooks = books.stream()
-                .filter(book -> book.getCategory().getCategoryName().equalsIgnoreCase(category))
-                .map(Mapper::toBookDto)
-                .collect(Collectors.toList());
+        if (!existsByCategoryName) {
+            throw new CategoryNotFoundException("Category not found");
+        }
 
+        List<String> bookTitles = authorRepository.findTitlesByAuthorIdAndCategory(id, category);
 
-        return new AuthorBookDto(
-                author.getFirstName(),
-                category,
-                categorizedBooks.size(),
-                categorizedBooks
-        );
+        return new AuthorBookDto(author.getFirstName(), author.getLastName(), category, bookTitles.size(), bookTitles);
     }
 }
