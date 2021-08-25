@@ -23,7 +23,7 @@ public class Book {
     @NotNull
     @NotEmpty
     @Column(nullable = false)
-    private String Isbn; // TODO: add ISBN validation
+    private String isbn; // TODO: add ISBN validation
 
     @NotNull
     @NotEmpty
@@ -37,7 +37,7 @@ public class Book {
     private Category category;
 
     public Book(String isbn, String title, Set<Author> authors, Category category) {
-        Isbn = isbn;
+        this.isbn = isbn;
         this.title = title;
         this.authors = authors;
         this.category = category;
@@ -50,4 +50,5 @@ public class Book {
     public void removeAuthor(Author author) {
         this.authors.remove(author);
     }
+
 }
