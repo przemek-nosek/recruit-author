@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.java.recruitauthor.dto.AuthorBookDto;
+import pl.java.recruitauthor.dto.AuthorDto;
 import pl.java.recruitauthor.service.AuthorService;
 
 import java.util.List;
@@ -29,6 +30,13 @@ public class AuthorController {
     @GetMapping("/{id}/categories")
     public ResponseEntity<List<AuthorBookDto>> getAuthorBooksGroupedByCategory(@PathVariable Long id) {
         List<AuthorBookDto> dtoList = authorService.getAuthorBooksGroupedByCategory(id);
+
+        return new ResponseEntity<>(dtoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/authors")
+    public ResponseEntity<List<AuthorDto>> getAllAuthorsAndGroupByCategory() {
+        List<AuthorDto> dtoList = authorService.getAllAuthorsAndGroupByCategory();
 
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.java.recruitauthor.dto.AuthorBookDto;
+import pl.java.recruitauthor.dto.AuthorDto;
 import pl.java.recruitauthor.entity.Author;
 import pl.java.recruitauthor.exception.AuthorNotFoundException;
 import pl.java.recruitauthor.exception.CategoryNotFoundException;
@@ -12,10 +13,8 @@ import pl.java.recruitauthor.repository.AuthorRepository;
 import pl.java.recruitauthor.repository.CategoryRepository;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
@@ -26,7 +25,6 @@ public class AuthorService {
     private final AuthorRepository authorRepository;
     private final CategoryRepository categoryRepository;
 
-    @Transactional
     public AuthorBookDto getAuthorAndBooksInSingleCategory(Long id, String category) {
 
         Author author = authorRepository.findById(id).orElseThrow(() -> new AuthorNotFoundException("Author not found"));
@@ -46,7 +44,7 @@ public class AuthorService {
 
         Author author = authorRepository.findById(id).orElseThrow(() -> new AuthorNotFoundException("Author not found"));
 
-        List<BookNameCategory> bookNameCategories = authorRepository.uga2(id);
+        List<BookNameCategory> bookNameCategories = authorRepository.findAllAuthorBooksGroupedByCategory(id);
 
         List<AuthorBookDto> dtos = new ArrayList<>();
 
@@ -67,5 +65,9 @@ public class AuthorService {
         }
 
         return dtos;
+    }
+
+    public List<AuthorDto> getAllAuthorsAndGroupByCategory() {
+        return authorRepository.findAllAuthorsAndGroupByCategory();
     }
 }
